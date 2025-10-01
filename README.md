@@ -41,20 +41,40 @@ Urban mobility is a critical concern for modern cities, requiring robust data so
 
 ### Directory Structure
 
+
 The repository is organized for clarity and modularity. Key components include:
 
 ```
 ├── 01-docker-terraform/
-│   ├── 1_terraform_gcp/        # IaC scripts for GCP (main.tf, variables.tf)
-│   └── 2_docker_sql/           # Docker setup for SQL ingest (Dockerfile, ingest_data.py)
-├── 02-workflow-orchestration/  # Workflow orchestration (e.g., Kestra flows)
-├── 03-data-warehouse/          # BigQuery schemas, warehouse logic
+│   ├── 1_terraform_gcp/           # Infrastructure as Code for GCP (main.tf, variable.tf, keys/)
+│   │   └── keys/                  # GCP service account credentials
+│   └── 2_docker_sql/              # Docker setup for SQL ingest
+│       ├── Dockerfile             # Custom Docker image for data ingestion
+│       ├── docker-compose.yaml    # Compose file for multi-container setup
+│       ├── ingest_data.py         # Python script for ingesting data into SQL
+│       ├── pipeline.py            # Data pipeline orchestration script
+│       ├── *.parquet              # Sample Parquet data files
+│       ├── *.csv                  # Lookup tables and reference data
+│       └── ny_taxi_postgres_data/ # PostgreSQL data directory (volumes)
+├── 02-workflow-orchestration/
+│   ├── docker-compose.yml         # Compose file for workflow orchestration
+│   └── workflow/                  # Kestra workflow definitions (YAML)
+├── 03-data-warehouse/
+│   └── bigquery.sql               # BigQuery schema and logic
 ├── 04-analytics-engineering/
-│   └── taxi_rides_ny/          # dbt project for analytics engineering
-├── docs/                       # Documentation
-├── .github/                    # GitHub workflows, issue templates
-├── .vscode/                    # Editor config
-└── README.md                   # Main project documentation
+│   └── taxi_rides_ny/             # dbt analytics engineering project
+│       ├── dbt_project.yml        # dbt project config
+│       ├── models/                # dbt models (core, staging)
+│       ├── seeds/                 # Seed data (CSV, properties)
+│       ├── macros/                # Custom dbt macros
+│       ├── analyses/              # SQL analysis scripts
+│       ├── snapshots/             # dbt snapshots
+│       └── README.md              # Project documentation
+├── docs/                         # Additional documentation and notes
+│   └── note.txt                   # Project notes
+├── images/                       # Architecture, workflow, and data model diagrams
+├── LICENSE                       # Project license
+├── README.md                     # Main project documentation
 ```
 
 ### Pipeline Overview
