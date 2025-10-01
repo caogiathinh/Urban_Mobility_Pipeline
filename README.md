@@ -74,7 +74,7 @@ The pipeline leverages Docker for containerization and Kestra for orchestration,
 
 ### Data Lake Architecture
 
-![Datalake Storage](images/datalake_storage.png)
+![Datalake Storage](images/datalake.01.storage.png)
 The Data Lake is structured to support scalability and performance:
 - **Raw Zone**: Ingested data in its original format (CSV, JSON, XML).
 - **Processed Zone**: Cleaned and transformed data in Parquet format.
