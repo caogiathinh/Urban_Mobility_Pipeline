@@ -1,81 +1,218 @@
-# End-to-end-cloud-data-platform: Nền tảng Dữ liệu Hiện đại cho Phân tích Vận tải Đô thị
+# Urban_Mobility_Pipeline: Đường ống Dữ liệu cho Phân tích Vận tải Đô thị
 
-**Trạng thái dự án:** 🚧 **Đang triển khai (In Progress)** 🚧
+**Trạng thái dự án:** 🚧 Đang triển khai (In Progress) 🚧
 
-Dự án này nhằm xây dựng một nền tảng dữ liệu end-to-end, có khả năng mở rộng và tự động hóa, để giải quyết các bài toán phân tích nghiệp vụ và hoạch định chiến lược cho ngành vận tải đô thị tại New York. Tài liệu này mô tả kiến trúc đã được thiết kế và lộ trình triển khai dự án.
+Dự án này xây dựng một nền tảng dữ liệu end-to-end, có khả năng mở rộng và tự động hóa, để giải quyết các bài toán phân tích nghiệp vụ và hỗ trợ ra quyết định trong lĩnh vực vận tải đô thị.
 
 ---
 
 ## 1. Bối cảnh & Thách thức (The Problem)
 
-Ngành vận tải đô thị tại New York đang phải đối mặt với những thách thức phức tạp, ảnh hưởng đến cả nhà quản lý (TLC), tài xế và hành khách:
+Ngành vận tải đô thị tại New York đối mặt với nhiều thách thức:
+- **Tắc nghẽn giao thông:** 117 giờ/năm/người.
+- **Thay đổi mô hình nhu cầu (Hậu COVID-19):** Di chuyển không còn tập trung vào giờ cao điểm truyền thống.
+- **Cạnh tranh từ Xe Công nghệ (Uber, Lyft):** Cần tối ưu hóa vận hành và phân tích cạnh tranh.
 
-*   **Tắc nghẽn nghiêm trọng:** Một người dân New York mất trung bình **117 giờ mỗi năm** vì kẹt xe, làm giảm hiệu suất của tài xế và ảnh hưởng trực tiếp đến thu nhập.
-*   **Thay đổi mô hình nhu cầu (Hậu COVID-19):** Mô hình làm việc hybrid/remote đã làm thay đổi các "điểm nóng" và "giờ cao điểm" truyền thống, khiến các mô hình dự báo cũ trở nên vô giá trị.
-*   **Cạnh tranh khốc liệt từ Xe Công nghệ (FHVs):** Sự trỗi dậy của Uber, Lyft đã phá vỡ thị trường taxi truyền thống, đặt ra yêu cầu cấp thiết về việc hiện đại hóa năng lực quản lý và cạnh tranh.
+**Vấn đề cốt lõi:** Thiếu một nền tảng dữ liệu tập trung, mạnh mẽ cho các bên liên quan.
 
-**Vấn đề cốt lõi:** Sự thiếu hụt một nền tảng dữ liệu tập trung, mạnh mẽ đã khiến các bên liên quan hoạt động với thông tin rời rạc, dẫn đến hiệu quả kinh doanh thấp và khả năng quản lý bị hạn chế.
+---
 
 ## 2. Giải pháp & Mục tiêu (The Solution)
 
-Để giải quyết các thách thức trên, dự án này sẽ triển khai một **nền tảng dữ liệu hiện đại (Modern Data Platform)** với các mục tiêu chính:
+### Mục tiêu Kỹ thuật
+1. Xây dựng đường ống dữ liệu (Data Pipeline) hoàn chỉnh và tự động.
+2. Đảm bảo chất lượng dữ liệu qua kiểm thử tự động.
+3. Thiết kế hệ thống mở rộng, dễ bảo trì.
 
-*   **Về mặt Kỹ thuật:**
-    1.  **Xây dựng một đường ống dữ liệu (Data Pipeline) hoàn chỉnh và tự động.**
-    2.  **Đảm bảo chất lượng dữ liệu** thông qua các bài kiểm thử tự động.
-    3.  **Thiết kế hệ thống có khả năng mở rộng** và dễ bảo trì.
+### Mục tiêu Nghiệp vụ
+1. Tối ưu vận hành qua phân tích nhu cầu thị trường.
+2. Xây dựng hệ thống đo lường hiệu suất (KPIs).
+3. Cung cấp năng lực phân tích hỗ trợ ra quyết định.
 
-*   **Về mặt Nghiệp vụ:**
-    1.  **Tối ưu hóa Vận hành** qua phân tích nhu cầu thị trường.
-    2.  **Xây dựng Hệ thống Đo lường Hiệu suất Kinh doanh (KPIs).**
-    3.  **Cung cấp năng lực phân tích dữ liệu** để hỗ trợ TLC ra quyết định.
+---
 
 ## 3. Kiến trúc hệ thống (System Architecture)
-<p align="center">
-  <img src="https://github.com/caogiathinh/End-to-End-Cloud-Data-Platform/blob/main/images/DataArchitecture.png" alt="Sơ đồ kiến-trúc" width="800">
-</p>
-Dự án áp dụng kiến trúc **ELT (Extract - Load - Transform)** trên nền tảng cloud, với các thành phần được container hóa để đảm bảo tính nhất quán và khả năng tái lập.
 
+![Kiến trúc tổng quan](https://github.com/caogiathinh/End-to-End-Cloud-Data-Platform/blob/main/images/DataArchitecture.png)
+
+Áp dụng kiến trúc ELT (Extract - Load - Transform) trên nền tảng cloud, container hóa từng thành phần để đảm bảo tính nhất quán và khả năng mở rộng.
 
 ### Tech Stack
 
-| Tầng (Layer)          | Công nghệ                                                               | Vai trò                                                                                                    |
-| --------------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| **Containerization**  | <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker" />    | Đóng gói ứng dụng và phụ thuộc, đảm bảo môi trường nhất quán từ local đến production.                     |
-| **Infrastructure**    | <img src="https://img.shields.io/badge/Terraform-7B42BC?logo=terraform" /> | Quản lý hạ tầng dưới dạng mã (Infrastructure as Code), tự động tạo tài nguyên trên GCP.                  |
-| **Data Lake**         | <img src="https://img.shields.io/badge/Google_Cloud_Storage-4285F4?logo=google-cloud" /> | Lưu trữ dữ liệu thô (raw data) với chi phí thấp và khả năng mở rộng gần như vô hạn.                       |
-| **Data Warehouse**    | <img src="https://img.shields.io/badge/Google_BigQuery-669DF6?logo=google-bigquery" /> | Kho dữ liệu serverless, hiệu năng cao, tối ưu cho các truy vấn phân tích (OLAP).                           |
-| **Transformation**    | <img src="https://img.shields.io/badge/Apache_Spark-E25A1C?logo=apache-spark" /> <img src="https://img.shields.io/badge/dbt-FF694B?logo=dbt" /> | **Spark:** Xử lý dữ liệu thô từ Data Lake. <br/> **dbt:** Biến đổi dữ liệu theo logic nghiệp vụ bên trong BigQuery. |
-| **Data Orchestration**| <img src="https://img.shields.io/badge/Kestra-E157F8" />                 | "Nhạc trưởng" điều phối, lập lịch và giám sát toàn bộ pipeline dữ liệu.                                   |
-| **Data Testing**      | <img src="https://img.shields.io/badge/dbt-FF694B?logo=dbt" />           | Tích hợp kiểm thử chất lượng dữ liệu (schema, referential integrity, business logic).                     |
-| **Data Visualization**| <img src="https://img.shields.io/badge/Looker_Studio-4285F4?logo=looker" /> | Xây dựng các báo cáo và dashboard tương tác để phục vụ người dùng cuối.                                    |
+| Layer                  | Technology | Vai trò |
+|------------------------|------------|---------|
+| **Containerization**   | Docker     | Đóng gói ứng dụng, môi trường nhất quán |
+| **Infrastructure**     | Terraform  | Quản lý hạ tầng dưới dạng mã (IaC) |
+| **Data Lake**          | Google Cloud Storage | Lưu trữ dữ liệu thô |
+| **Data Warehouse**     | BigQuery   | Lưu trữ & truy vấn dữ liệu phân tích |
+| **Transformation**     | dbt, Spark | Chuyển đổi, chuẩn hóa dữ liệu |
+| **Orchestration**      | Kestra     | Điều phối, lên lịch pipeline dữ liệu |
+| **Testing**            | dbt        | Kiểm thử chất lượng dữ liệu |
+| **Visualization**      | Looker Studio | Báo cáo, dashboard phân tích |
 
-## 4. Mô hình Dữ liệu (Data Model)
+---
 
-Hệ thống sẽ triển khai mô hình **Star Schema** trong Data Warehouse (BigQuery) để tối ưu cho các truy vấn phân tích. Mô hình bao gồm một bảng Fact trung tâm (`fct_trips`) và nhiều bảng Dimension xung quanh (`dim_datetime`, `dim_locations`,...).
+## 4. Cấu trúc thư mục (File Structure)
 
-Thiết kế này sẽ được tối ưu hiệu năng bằng cách **Partition** bảng Fact theo ngày và **Cluster** theo các cột thường được lọc.
+```
+├── 01-docker-terraform/
+│   ├── 1_terraform_gcp/        # IaC scripts for GCP (main.tf, variables.tf)
+│   └── 2_docker_sql/           # Docker setup for SQL ingest (Dockerfile, ingest_data.py)
+├── 02-workflow-orchestration/  # Workflow orchestration (e.g., Kestra flows)
+├── 03-data-warehouse/          # BigQuery schemas, warehouse logic
+├── 04-analytics-engineering/
+│   └── taxi_rides_ny/          # dbt project for analytics engineering
+├── docs/                       # Documentation
+├── .github/                    # GitHub workflows, issue templates
+├── .vscode/                    # Editor config
+└── README.md                   # Main project documentation
+```
 
-## 5. Lộ trình Triển khai (Implementation Roadmap)
+---
 
-Dự án sẽ được triển khai theo các giai đoạn chính, tương ứng với việc xây dựng từng phần của kiến trúc:
+## 5. Thành phần chính (Main Modules)
 
-*   [ ] **Giai đoạn 1: Foundation & Infrastructure (Tuần 1)**
-    *   [ ] Thiết lập môi trường phát triển local với Docker & PostgreSQL.
-    *   [ ] Viết script ingest dữ liệu ban đầu.
-    *   [ ] Dùng Terraform để tự động hóa việc tạo GCS bucket và BigQuery dataset.
+### Data Ingestion
+- **Python scripts** (e.g., ingest_data.py): Tải dữ liệu nguồn về, làm sạch và chuẩn hóa.
+- **Docker**: Đóng gói quy trình ingest, đảm bảo dễ triển khai ở nhiều môi trường.
+  ```dockerfile
+  FROM python:3.9.1
+  RUN pip install pandas sqlalchemy psycopg2-binary pyarrow
+  WORKDIR /app
+  COPY ingest_data.py ingest_data.py
+  ENTRYPOINT ["python", "ingest_data.py"]
+  ```
 
-*   [ ] **Giai đoạn 2: Orchestration & Cloud DWH (Tuần 2)**
-    *   [ ] Cài đặt và cấu hình Kestra.
-    *   [ ] Xây dựng pipeline ELT tự động từ nguồn dữ liệu -> GCS -> BigQuery.
-    *   [ ] Tối ưu hóa bảng trong BigQuery với Partitioning và Clustering.
+### Infrastructure as Code
+- **Terraform scripts**: Tự động hóa tạo bucket GCS, BigQuery dataset, resource lifecycle.
+  ```hcl
+  resource "google_storage_bucket" "demo-bucket" {...}
+  resource "google_bigquery_dataset" "demo_dataset" {...}
+  ```
 
-*   [ ] **Giai đoạn 3: Analytics Engineering (Tuần 3)**
-    *   [ ] Thiết lập project dbt.
-    *   [ ] Xây dựng các data model (staging, core) theo Star Schema.
-    *   [ ] Triển khai các bài kiểm thử dữ liệu (data tests) để đảm bảo chất lượng.
+### Workflow Orchestration
+- **Kestra**: Điều phối pipeline, lên lịch các job ingest, transform, load.
 
-*   [ ] **Giai đoạn 4: Batch Processing & Visualization (Tuần 4)**
-    *   [ ] Sử dụng Spark để xử lý các tác vụ biến đổi dữ liệu phức tạp.
-    *   [ ] Xây dựng các dashboard phân tích ban đầu trên Looker Studio.
-    *   [ ] Tổng kết dự án và hoàn thiện tài liệu.
+### Data Warehouse & Analytics
+- **dbt**: Quản lý schema, transformation và testing cho phân tích nghiệp vụ.
+- **Jupyter Notebooks**: Khám phá, trực quan hóa dữ liệu, kiểm thử ý tưởng.
+
+---
+
+## 6. Mô hình Dữ liệu (Data Model)
+
+- Sử dụng **Star Schema** trong BigQuery: Bảng Fact (`fct_trip`) và Dimension (e.g., `dim_driver`, `dim_location`).
+- Partition bảng Fact theo ngày, cluster theo các cột lọc phổ biến.
+
+---
+
+## 7. Hướng dẫn cài đặt & triển khai (Setup & Deployment)
+
+### Prerequisites
+- Python 3.8+
+- Docker
+- Terraform
+- dbt
+- Google Cloud SDK
+
+### Steps
+
+```bash
+# Clone repo
+git clone https://github.com/caogiathinh/Urban_Mobility_Pipeline.git
+cd Urban_Mobility_Pipeline
+
+# Setup Python environment
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Build Docker containers
+cd 01-docker-terraform/2_docker_sql
+docker build -t taxi-ingest .
+
+# Terraform: Setup GCP resources
+cd ../1_terraform_gcp
+terraform init
+terraform apply
+
+# dbt: Run analytics engineering
+cd ../../04-analytics-engineering/taxi_rides_ny
+dbt seed
+dbt run
+dbt test
+```
+
+---
+
+## 8. Cấu hình (Configuration)
+
+- Sử dụng `.env` cho credentials, secrets.
+- Sửa các biến trong Terraform (`variables.tf`), dbt (`dbt_project.yml`).
+- Dockerfile có thể chỉnh sửa để bổ sung thư viện hoặc script ingest.
+
+---
+
+## 9. Quy trình phát triển & đóng góp (Contributing)
+
+Mọi đóng góp đều được hoan nghênh!
+1. Fork repository và tạo nhánh mới (`git checkout -b feature-xyz`)
+2. Commit và mở Pull Request mô tả rõ tính năng/sửa lỗi.
+3. Ưu tiên code chuẩn PEP8, có docstring và kiểm thử tự động.
+
+---
+
+## 10. Lộ trình triển khai (Implementation Roadmap)
+
+- Giai đoạn 1: Foundation & Infrastructure (Docker, Terraform, PostgreSQL)
+- Giai đoạn 2: Orchestration & Cloud DWH (Kestra, BigQuery)
+- Giai đoạn 3: Analytics Engineering (dbt, Star Schema, data tests)
+- Giai đoạn 4: Batch Processing & Visualization (Spark, Looker Studio)
+
+---
+
+## 11. License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2025 caogiathinh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+---
+
+## 12. Liên hệ (Contact)
+
+- Mở Issue hoặc Pull Request trên [GitHub](https://github.com/caogiathinh/Urban_Mobility_Pipeline/issues)
+- Chủ dự án: [@caogiathinh](https://github.com/caogiathinh)
+
+---
+
+## 13. Tài liệu & Tham khảo
+
+- [dbt Docs](https://docs.getdbt.com/docs/introduction)
+- [Terraform Docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
+- [Docker Docs](https://docs.docker.com/)
+- [Kestra Docs](https://kestra.io/docs/)
